@@ -1,109 +1,69 @@
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector('#bg-canvas'),
-    alpha: true 
+// --- Initialize Particle.js Background ---
+// This loads the particle animation configuration from a JSON file.
+particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/npm/particles.js@2.0.0/demo/particles.json', function() {
+    console.log('callback - particles.js config loaded');
 });
 
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(30);
-
-
-const geometry = new THREE.IcosahedronGeometry(1, 0);
-const material = new THREE.MeshStandardMaterial({
-    color: 0x6a5af9,
-    metalness: 0.6,
-    roughness: 0.3,
-    emissive: 0x111111,
-});
-
-
-const crystals = [];
-for (let i = 0; i < 100; i++) {
-    const mesh = new THREE.Mesh(geometry, material);
-
-    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
-    mesh.position.set(x, y, z);
-
-    const [rx, ry, rz] = Array(3).fill().map(() => Math.random() * Math.PI);
-    mesh.rotation.set(rx, ry, rz);
-    
-    const scale = THREE.MathUtils.randFloat(0.5, 1.5);
-    mesh.scale.set(scale, scale, scale);
-
-    scene.add(mesh);
-    crystals.push(mesh);
-}
-
-
-const pointLight = new THREE.PointLight(0xffffff, 1);
-pointLight.position.set(5, 5, 5);
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(pointLight, ambientLight);
-
-const mouse = new THREE.Vector2();
-window.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
-
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    crystals.forEach(crystal => {
-        crystal.rotation.x += 0.001;
-        crystal.rotation.y += 0.002;
-    });
-
-    
-    pointLight.position.x = mouse.x * 20;
-    pointLight.position.y = mouse.y * 20;
-
-    renderer.render(scene, camera);
-}
-
-animate();
-
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-
-
+// --- Main Form Logic & Animations ---
+// We wrap everything in DOMContentLoaded to make sure the HTML is ready before we try to access it.
 document.addEventListener('DOMContentLoaded', () => {
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
     const showRegisterLink = document.getElementById('show-register');
     const showLoginLink = document.getElementById('show-login');
-
     const formBox = document.querySelector('.form-box');
+    
+    // Flag to ensure the registration form animation only runs once.
+    let registerFormAnimated = false; 
 
-
+    // --- GSAP-powered form switching ---
+    // This function handles the 3D flip animation between the login and register forms.
     const switchForms = (showRegister) => {
         if (showRegister) {
+            // Flips to the register form
             gsap.to(formBox, { duration: 0.8, rotationY: 180, ease: 'power2.inOut' });
             if(registerBtn) registerBtn.classList.add('white-btn');
             if(loginBtn) loginBtn.classList.remove('white-btn');
+
+            // Animate register form elements if it hasn't been animated yet
+            if (!registerFormAnimated) {
+                anime({
+                    targets: '.register-container .top, .register-container .input-group, .register-container .password-strength',
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    delay: anime.stagger(100, {start: 400}), // Delay to start after flip
+                    easing: 'easeOutExpo',
+                    duration: 1000
+                });
+                registerFormAnimated = true; // Set flag so it doesn't run again
+            }
         } else {
+            // Flips back to the login form
             gsap.to(formBox, { duration: 0.8, rotationY: 0, ease: 'power2.inOut' });
             if(loginBtn) loginBtn.classList.add('white-btn');
             if(registerBtn) registerBtn.classList.remove('white-btn');
         }
     };
     
+    // Event listeners for all buttons and links that trigger the form switch
     if(loginBtn) loginBtn.addEventListener('click', () => switchForms(false));
     if(registerBtn) registerBtn.addEventListener('click', () => switchForms(true));
     if(showLoginLink) showLoginLink.addEventListener('click', (e) => { e.preventDefault(); switchForms(false); });
     if(showRegisterLink) showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); switchForms(true); });
 
+    // --- Initial Anime.js Animation for Login Form ---
+    // This runs on page load to animate the login form into view.
+    anime({
+        targets: '.login-container .top, .login-container .input-group, .login-container .form-options, .login-container .social-login',
+        translateY: [50, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(100, {start: 300}),
+        easing: 'easeOutExpo',
+        duration: 1000
+    });
     
+    // --- Password Visibility Toggle ---
+    // This allows users to show or hide the password.
     const passwordToggles = document.querySelectorAll('.password-toggle');
     passwordToggles.forEach(toggle => {
         toggle.addEventListener('click', () => {
@@ -120,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    
+    // --- Password Strength Meter ---
+    // This provides real-time feedback on password strength during registration.
     const regPassword = document.getElementById('reg-password');
     const strengthBar = document.querySelector('.strength-bar');
     const strengthText = document.querySelector('.password-strength p');
@@ -135,31 +96,32 @@ document.addEventListener('DOMContentLoaded', () => {
             if (/[0-9]/.test(password)) strength++;
             if (/[^A-Za-z0-9]/.test(password)) strength++;
             
+            // Update the UI based on the calculated strength score
             switch (strength) {
                 case 0:
                 case 1:
                     strengthBar.style.setProperty('--strength-width', '20%');
-                    strengthBar.style.setProperty('--strength-color', '#e74c3c');
+                    strengthBar.style.setProperty('--strength-color', '#e74c3c'); // Red
                     strengthText.textContent = 'Password is weak';
                     break;
                 case 2:
                     strengthBar.style.setProperty('--strength-width', '40%');
-                    strengthBar.style.setProperty('--strength-color', '#f1c40f');
+                    strengthBar.style.setProperty('--strength-color', '#f1c40f'); // Yellow
                     strengthText.textContent = 'Password is okay';
                     break;
                 case 3:
                      strengthBar.style.setProperty('--strength-width', '60%');
-                     strengthBar.style.setProperty('--strength-color', '#f1c40f');
+                     strengthBar.style.setProperty('--strength-color', '#f1c40f'); // Yellow
                      strengthText.textContent = 'Password is good';
                     break;
                 case 4:
                     strengthBar.style.setProperty('--strength-width', '80%');
-                    strengthBar.style.setProperty('--strength-color', '#2ecc71');
+                    strengthBar.style.setProperty('--strength-color', '#2ecc71'); // Light Green
                     strengthText.textContent = 'Password is strong';
                     break;
                 case 5:
                     strengthBar.style.setProperty('--strength-width', '100%');
-                    strengthBar.style.setProperty('--strength-color', '#27ae60');
+                    strengthBar.style.setProperty('--strength-color', '#27ae60'); // Dark Green
                     strengthText.textContent = 'Password is very strong';
                     break;
                 default:
@@ -168,15 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
 });
 
-
+// --- Mobile Menu Function ---
+// Toggles the 'responsive' class on the navigation menu for mobile view.
 function myMenuFunction() {
     var i = document.getElementById("navMenu");
     if (i) {
         i.classList.toggle('responsive');
     }
 }
-
-
