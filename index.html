@@ -3,19 +3,352 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Advanced login and registration form with 3D animations." />
+    <meta name="description" content="Advanced login and registration form with animations." />
     <title>Sarang | Login & Registration</title>
-    <link rel="stylesheet" href="style.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        body {
+            background: url('https://images.unsplash.com/photo-1711728640507-59559aff7556?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1; 
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 2; 
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-logo p {
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-menu ul li {
+            list-style-type: none;
+        }
+
+        .nav-menu ul li .link {
+            text-decoration: none;
+            font-weight: 500;
+            color: #fff;
+            padding-bottom: 10px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .link:hover,
+        .link.active {
+            border-color: #fff;
+        }
+
+        .nav-button .btn {
+            width: 130px;
+            height: 40px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-left: 10px;
+            color: #333;
+        }
+
+        .btn:hover {
+            background: white;
+        }
+
+        .btn.white-btn {
+            background: white;
+        }
+
+        .nav-menu-btn {
+            display: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .form-box {
+            position: relative;
+            width: 520px;
+            height: 580px; 
+            perspective: 1000px;
+        }
+
+        .login-container,
+        .register-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backface-visibility: hidden;
+            transform-style: preserve-3d; 
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .register-container {
+           transform: rotateY(-180deg);
+        }
+
+        .top {
+            color: #fff;
+            text-align: center;
+        }
+        .top header {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .top span {
+            font-size: 0.9rem;
+        }
+        .top a {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .top a:hover {
+            text-decoration: underline;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 45px 12px 45px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            background-color: transparent;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 45px;
+            top: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            top: -10px;
+            left: 30px;
+            font-size: 0.75rem;
+            color: white;
+            background-color: #2b2b36;
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+
+        .input-group .bx {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-group .password-toggle {
+            right: 15px;
+            left: auto;
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .form-options a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .submit {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background-color: white;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        .submit:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .social-login {
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .social-icons button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .social-icons button:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .password-strength {
+            margin-top: -10px;
+        }
+        .strength-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #333;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .strength-bar::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: var(--strength-width, 0%);
+            background-color: var(--strength-color, #e74c3c);
+            border-radius: 3px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        .password-strength p {
+            color: #aaa;
+            font-size: 0.8rem;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+
+        @media (max-width: 900px) {
+            .nav { padding: 20px 50px; }
+        }
+        @media (max-width: 768px) {
+            .nav-menu, .nav-button { display: none; }
+            .nav-menu-btn { display: block; }
+            .nav-menu.responsive {
+                display: flex;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+            }
+            .nav-menu.responsive ul {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     
-    <canvas id="bg-canvas"></canvas>
+    <div id="particles-js"></div>
 
     <div class="wrapper">
         <nav class="nav">
             <div class="nav-logo">
-                <p>LOGO .</p>
+                <p>bala</p>
             </div>
             <div class="nav-menu" id="navMenu">
                 <ul>
@@ -34,9 +367,9 @@
             </div>
         </nav>
 
-        
+        <!-- Form Box -->
         <div class="form-box">
-            
+            <!-- Login Form -->
             <div class="login-container" id="login">
                 <div class="top">
                     <header>Login</header>
@@ -73,6 +406,7 @@
                 </div>
             </div>
 
+            <!-- Registration Form -->
             <div class="register-container" id="register">
                 <div class="top">
                     <header>Sign Up</header>
@@ -105,9 +439,142 @@
         </div>
     </div>
 
+    <!-- Animation & Logic Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        // --- Initialize Particle.js Background ---
+        particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/npm/particles.js@2.0.0/demo/particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+
+        // --- Main Form Logic & Animations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const showRegisterLink = document.getElementById('show-register');
+            const showLoginLink = document.getElementById('show-login');
+            const formBox = document.querySelector('.form-box');
+            
+            let registerFormAnimated = false; // Flag to run animation only once
+
+            // GSAP-powered form switching
+            const switchForms = (showRegister) => {
+                if (showRegister) {
+                    gsap.to(formBox, { duration: 0.8, rotationY: 180, ease: 'power2.inOut' });
+                    if(registerBtn) registerBtn.classList.add('white-btn');
+                    if(loginBtn) loginBtn.classList.remove('white-btn');
+
+                    // Animate register form elements if it hasn't been animated yet
+                    if (!registerFormAnimated) {
+                        anime({
+                            targets: '.register-container .top, .register-container .input-group, .register-container .password-strength',
+                            translateY: [50, 0],
+                            opacity: [0, 1],
+                            delay: anime.stagger(100, {start: 400}), // Delay to start after flip
+                            easing: 'easeOutExpo',
+                            duration: 1000
+                        });
+                        registerFormAnimated = true; // Set flag so it doesn't run again
+                    }
+                } else {
+                    gsap.to(formBox, { duration: 0.8, rotationY: 0, ease: 'power2.inOut' });
+                    if(loginBtn) loginBtn.classList.add('white-btn');
+                    if(registerBtn) registerBtn.classList.remove('white-btn');
+                }
+            };
+            
+            if(loginBtn) loginBtn.addEventListener('click', () => switchForms(false));
+            if(registerBtn) registerBtn.addEventListener('click', () => switchForms(true));
+            if(showLoginLink) showLoginLink.addEventListener('click', (e) => { e.preventDefault(); switchForms(false); });
+            if(showRegisterLink) showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); switchForms(true); });
+
+            // --- Initial Anime.js Animation for Login Form ---
+            anime({
+                targets: '.login-container .top, .login-container .input-group, .login-container .form-options, .login-container .social-login',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100, {start: 300}),
+                easing: 'easeOutExpo',
+                duration: 1000
+            });
+            
+            // --- Password Visibility Toggle ---
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const passwordField = toggle.parentElement.querySelector('input');
+                    if (passwordField.type === 'password') {
+                        passwordField.type = 'text';
+                        toggle.classList.remove('bx-show');
+                        toggle.classList.add('bx-hide');
+                    } else {
+                        passwordField.type = 'password';
+                        toggle.classList.remove('bx-hide');
+                        toggle.classList.add('bx-show');
+                    }
+                });
+            });
+
+            // --- Password Strength Meter ---
+            const regPassword = document.getElementById('reg-password');
+            const strengthBar = document.querySelector('.strength-bar');
+            const strengthText = document.querySelector('.password-strength p');
+
+            if (regPassword && strengthBar && strengthText) {
+                regPassword.addEventListener('input', () => {
+                    const password = regPassword.value;
+                    let strength = 0;
+                    if (password.length >= 6) strength++;
+                    if (password.length >= 10) strength++;
+                    if (/[A-Z]/.test(password)) strength++;
+                    if (/[0-9]/.test(password)) strength++;
+                    if (/[^A-Za-z0-9]/.test(password)) strength++;
+                    
+                    switch (strength) {
+                        case 0:
+                        case 1:
+                            strengthBar.style.setProperty('--strength-width', '20%');
+                            strengthBar.style.setProperty('--strength-color', '#e74c3c');
+                            strengthText.textContent = 'Password is weak';
+                            break;
+                        case 2:
+                            strengthBar.style.setProperty('--strength-width', '40%');
+                            strengthBar.style.setProperty('--strength-color', '#f1c40f');
+                            strengthText.textContent = 'Password is okay';
+                            break;
+                        case 3:
+                            strengthBar.style.setProperty('--strength-width', '60%');
+                            strengthBar.style.setProperty('--strength-color', '#f1c40f');
+                            strengthText.textContent = 'Password is good';
+                            break;
+                        case 4:
+                            strengthBar.style.setProperty('--strength-width', '80%');
+                            strengthBar.style.setProperty('--strength-color', '#2ecc71');
+                            strengthText.textContent = 'Password is strong';
+                            break;
+                        case 5:
+                            strengthBar.style.setProperty('--strength-width', '100%');
+                            strengthBar.style.setProperty('--strength-color', '#27ae60');
+                            strengthText.textContent = 'Password is very strong';
+                            break;
+                        default:
+                            strengthBar.style.setProperty('--strength-width', '0%');
+                            strengthText.textContent = '';
+                    }
+                });
+            }
+        });
+
+        // --- Mobile Menu Function ---
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+            if (i) {
+                i.classList.toggle('responsive');
+            }
+        }
+    </script>
 </body>
 </html>
-
