@@ -38,3 +38,11 @@ It emphasizes clean UI, intuitive form inputs, and responsiveness across devices
 ---
 
 ## 📂 Folder Structure
+```
+Login-Page/
+│
+├── index.html         # Main login page markup
+├── style.css          # Styling & transitions
+├── script.js          # (Optional) validation or behavior
+└── assets/             # Images, icons, preview screenshots
+```
