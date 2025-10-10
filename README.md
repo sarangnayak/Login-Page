@@ -46,3 +46,15 @@ Login-Page/
 ├── script.js          # (Optional) validation or behavior
 └── assets/             # Images, icons, preview screenshots
 ```
+---
+
+## 🚀 Usage / Setup
+
+1. Clone this repository  
+   ```bash
+   git clone https://github.com/sarangnayak/Login-Page.git
+   cd Login-Page
+  2.	Open index.html in your browser
+	3.	(Optional) Customize styles, form behavior, or validation logic
+	4.	Deploy via GitHub Pages or any static web hosting
+```
