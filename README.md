@@ -16,7 +16,6 @@
 ## 🖼️ Preview
 
 ![Login Page Preview](./assets/preview.png)  
-*(Replace this with a screenshot placed in your `assets/` folder, named `preview.png` or with the path you choose.)*
 
 ---
 
@@ -54,7 +53,7 @@ Login-Page/
    ```bash
    git clone https://github.com/sarangnayak/Login-Page.git
    cd Login-Page
-  2.	Open index.html in your browser
-	3.	(Optional) Customize styles, form behavior, or validation logic
-	4.	Deploy via GitHub Pages or any static web hosting
-```
+   ```
+2.	Open index.html in your browser.
+3.	(Optional) Customize styles, form behavior, or validation logic.
+4.	Deploy via GitHub Pages or any static web hosting.
