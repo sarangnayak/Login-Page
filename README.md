@@ -99,3 +99,4 @@ Sarang Nayak
 ---
 
 If you want, I can also **extract the HTML / CSS / JS code** from your live demo, polish it (clean up comments, structure), and give you a ready-to-use repository template (with screenshot) based on this login page. Do you want me to do that?
+---
