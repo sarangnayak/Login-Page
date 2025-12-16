@@ -24,3 +24,25 @@ A modern, responsive login page built with vanilla HTML, CSS, and JavaScript. Fe
 Check out the live version: [https://sarangnayak.github.io/Login-Page/](https://sarangnayak.github.io/Login-Page/)
 
 ## 📁 Project Structure
+```
+Login-Page/
+├── index.html # Main login page
+├── style.css # All styles and animations
+├── script.js # Form validation and interactivity
+├── preview.png # Project screenshot
+└── README.md # Project documentation
+```
+
+
+## 🛠️ Getting Started
+
+### Quick Start
+Simply download the files and open `index.html` in your browser.
+
+### Local Development
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sarangnayak/Login-Page.git
+   cd Login-Page
+   ```
+   Open >index.< html in your browser, or use a local server:
