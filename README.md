@@ -118,4 +118,33 @@ Submit PRs – Implement enhancements and submit pull requests
 
 Improve Docs – Help enhance the documentation
 
+Development Workflow
+Fork the repository
+
+Create a feature branch
+
+Make your changes
+
+Test across browsers
+
+Submit a pull request
+
+📝 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+🙏 Acknowledgments
+Modern CSS Techniques – Used for responsive design and animations
+
+MDN Web Docs – For comprehensive web development documentation
+
+Browser Developer Tools – For debugging and optimization
+
+GitHub Community – For hosting and continuous deployment
+
+📊 Project Status
+Active – Regularly maintained and deployed via GitHub Pages
+
+Deployment History: 11 successful deployments to GitHub Pages
+
+Latest Update: Form validation improvements and accessibility enhancements
 
