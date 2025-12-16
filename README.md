@@ -89,4 +89,33 @@ Edit the CSS custom properties in `style.css`:
   --background-color: #your-color;
 }
 ```
+### Add Features
+- Password strength indicator
+- "Remember me" functionality
+- Social login buttons (Google, GitHub, etc.)
+- Dark/light mode toggle
+- CAPTCHA integration
+- Forgot password flow
+
+### Modify Validation
+Update validation rules in `script.js`:
+```
+javascript
+const validationRules = {
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+};
+```
+
+🤝 Contributing
+Contributions are welcome! Here's how you can help:
+
+Report Issues – Found a bug? Open an issue
+
+Suggest Features – Have ideas for improvements?
+
+Submit PRs – Implement enhancements and submit pull requests
+
+Improve Docs – Help enhance the documentation
+
 
