@@ -46,3 +46,47 @@ Simply download the files and open `index.html` in your browser.
    cd Login-Page
    ```
    Open >index.< html in your browser, or use a local server:
+
+   ### GitHub Pages Deployment
+Automatically deployed from the `main` branch.
+
+## 🔧 Technical Details
+
+### Frontend Stack
+- **HTML5** – Semantic markup with modern elements
+- **CSS3** – Flexbox/Grid layout, CSS animations, custom properties
+- **Vanilla JavaScript** – Form handling and validation
+
+### Key Components
+- **Form Validation System** – Real-time input validation
+- **Animation Controller** – Smooth transitions and effects
+- **Responsive Manager** – Media queries for all screen sizes
+- **Theme System** – CSS custom properties for easy theming
+
+### Browser Support
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
+- Mobile browsers (iOS Safari, Chrome for Android)
+
+## 🎯 Use Cases
+
+- **Web Applications** – Authentication interface starter
+- **Portfolio Projects** – Showcase frontend skills
+- **Learning Resource** – Study modern CSS and JavaScript patterns
+- **Template** – Quick start for login/register pages
+- **UI/UX Reference** – Example of form design best practices
+
+## 🔧 Customization
+
+### Change Colors
+Edit the CSS custom properties in `style.css`:
+```css
+:root {
+  --primary-color: #your-color;
+  --secondary-color: #your-color;
+  --background-color: #your-color;
+}
+```
+
